@@ -126,10 +126,10 @@ window.addEventListener('DOMContentLoaded', () => {
 				cardDate.classList = 'card__date';
 				subcontent.classList = 'card__subcontent';
 
+				cardIcon.src = 'img/cardIcon.svg';
 				like.src = 'img/heartOff.svg';
 				like.alt = 'like';
 				cardId.textContent = 'ID:';
-				cardIcon.src = 'img/cardIcon.svg';
 				cardIcon.alt = 'card-icon';
 				link.textContent = object.id;
 				link.href = object.url;
