@@ -47,8 +47,8 @@ function addRemoveFavourite() {
 
 		id = id.match(/\s+\S[^]*$/).toString().trim();
 		if (document.getElementById(`${id}`) !== null) {
-			document.querySelector(`#${id}`).childNodes[0].src = 'img/heartOff.svg';
-			document.querySelector(`#${id}`).childNodes[0].classList.remove('liked');
+			document.querySelector(`${id}`).childNodes[0].src = 'img/heartOff.svg';
+			document.querySelector(`${id}`).childNodes[0].classList.remove('liked');
 		}
 		like.target.parentNode.remove();
 		localStorage.removeItem(like.target.parentNode.id);
@@ -72,7 +72,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		};
 
 	hamburger.addEventListener('click', (button) => {
-		console.log(button.target);
 		if ( document.querySelector('.favourite').classList.contains('favourite__active')) {
 			off();
 		} else {
