@@ -14,7 +14,7 @@ function getCategory() {
 }
 // Добавляем выбраные карточки
 function addFavouriteCards() {
-	for(let i = 0; i < localStorage.length; i++) {
+	for(let i = localStorage.length; i > 0; i--) {
 		let div = document.createElement('div'),
 			key = localStorage.key(i),
 			result;
@@ -181,6 +181,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			})
 			.finally(() => {
 				form.reset();
+				removeCategory();
+				navigation.classList.remove('active');
 			});
 	});
 
