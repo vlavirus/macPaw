@@ -12,6 +12,7 @@
 			width: 80%
 @media (max-width: 991px)
 	.header
+		
 		&__name
 			widows: 33%
 	.container-my
@@ -37,14 +38,13 @@
 			z-index: 2
 	.hamburger
 		display: inline-block
-		position: absolute
-		right: 94px
-		top: 1%
+		position: fixed
+		right: 134px
+		top: 40px
 		width: 28px
 		height: 28px
 		background: #333333
 		border-radius: 100%
-		cursor: pointer
 		z-index: 2
 	.wrapper
 		display: block
@@ -79,10 +79,12 @@
 		width: 60%
 		height: 100vh
 		padding: 68px 15px 0 15px
-		// background-color: rgba(0, 0, 0, 0.8)
+		background-attachment: scroll
 		transition: 0.6s all
 		&__active
 			right: 0
+			overflow-y: scroll
+
 		&__name
 			display: none
 
@@ -102,6 +104,9 @@
 		margin-top: 20px
 		&__subheader
 			display: block
+	.hamburger
+		right: 114px
+		top: 20px
 	.favourite
 		width: 100%
 	.modes
