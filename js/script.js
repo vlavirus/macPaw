@@ -47,8 +47,8 @@ function addRemoveFavourite() {
 
 		id = id.match(/\s+\S[^]*$/).toString().trim();
 		if (document.getElementById(`${id}`) !== null) {
-			document.querySelector(`${id}`).childNodes[0].src = 'img/heartOff.svg';
-			document.querySelector(`${id}`).childNodes[0].classList.remove('liked');
+			document.getElementById(`${id}`).childNodes[0].src = 'img/heartOff.svg';
+			document.getElementById(`${id}`).childNodes[0].classList.remove('liked');
 		}
 		like.target.parentNode.remove();
 		localStorage.removeItem(like.target.parentNode.id);
@@ -241,13 +241,14 @@ window.addEventListener('DOMContentLoaded', () => {
 					subcontent.append(cardDate, cardCategory);
 					cardFrame.append(cardId, cardIcon, cardContent);
 					card.append(like,cardFrame, subcontent);
-
+					
 					document.querySelector('.favourite__name').after(card);
+					addRemoveFavourite();
 					likedCard.childNodes[0].src = 'img/heartOn.svg';
 
 					localStorage.setItem(`selected ${id}`, card.outerHTML);
 
-					addRemoveFavourite();
+					// addRemoveFavourite();
 				}
 			});
 		}
