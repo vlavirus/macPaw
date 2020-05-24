@@ -6,26 +6,41 @@ window.onload = function() {
 var categories = {},
 	categoryCount = 0;
 
+//Получаем категории
 function getCategory() {
 	fetch('https://api.chucknorris.io/jokes/categories')
 			.then(response => response.json())
 			.then(json => {categories = Object.assign({},json);});
 }
+// Добавляем выбраные карточки
 function addFavouriteCards() {
 	for(let i = 0; i < localStorage.length; i++) {
 		let div = document.createElement('div'),
 			key = localStorage.key(i),
 			result;
 
-		div.innerHTML = localStorage.getItem(key);
-		result = div.firstChild;
-		console.log(result);
-		document.querySelector('.favourite__name').after(result);
-		addRemoveFavourite();
+		if (/^selected/.test(key)) {
+			div.innerHTML = localStorage.getItem(key);
+			result = div.firstChild;
+			document.querySelector('.favourite__name').after(result);
+			addRemoveFavourite();
+		}
 	}
 }
 
+function on() {
+	document.querySelector(".overlay").style.display = "block";
+	document.querySelector('.wrapper').classList.toggle('wrapper_active');
+	document.querySelector('.favourite').classList.toggle('favourite__active');
+}
 
+function off() {
+	document.querySelector(".overlay").style.display = "none";
+	document.querySelector('.wrapper').classList.toggle('wrapper_active');
+	document.querySelector('.favourite').classList.toggle('favourite__active');
+}
+
+// Убираем выбраные карточки
 function addRemoveFavourite() {
 	document.querySelector('.selected__like').addEventListener('click', (like) => {
 		let id = like.target.parentNode.id;
@@ -33,6 +48,7 @@ function addRemoveFavourite() {
 		id = id.match(/\s+\S[^]*$/).toString().trim();
 		if (document.getElementById(`${id}`) !== null) {
 			document.querySelector(`#${id}`).childNodes[0].src = 'img/heartOff.svg';
+			document.querySelector(`#${id}`).childNodes[0].classList.remove('liked');
 		}
 		like.target.parentNode.remove();
 		localStorage.removeItem(like.target.parentNode.id);
@@ -44,7 +60,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		favourite = document.querySelector('.favourite'),
 		hamburger = document.querySelector('.hamburger'),
 		wrapper = document.querySelector('.wrapper'),
-		// cardlike = document.querySelectorAll('.card__like'),
 		form = document.querySelector('form'),
 		radios = document.getElementsByName('category'),
 		navigation = document.querySelector('.modes__navigation'),
@@ -56,9 +71,13 @@ window.addEventListener('DOMContentLoaded', () => {
 			fail: 'Что-то пошло не так, попробуйте зайти позже'
 		};
 
-	hamburger.addEventListener('click', () => {
-		wrapper.classList.toggle('wrapper_active');
-		favourite.classList.toggle('favourite__active');
+	hamburger.addEventListener('click', (button) => {
+		console.log(button.target);
+		if ( document.querySelector('.favourite').classList.contains('favourite__active')) {
+			off();
+		} else {
+			on();
+		}
 	});
 
 	form.addEventListener('submit', (e) => {
@@ -88,11 +107,18 @@ window.addEventListener('DOMContentLoaded', () => {
 			formDate.forEach(function(value, key) {
 				object[key] = value;
 			});
-			filter = `search?query=${object.category}`;
+			if (object.category != '') {
+				filter = `search?query=${object.category}`;
+			} else {
+				alert(`Поле 'Free text search' нужно заполнить`);
+				return;
+			}
 		}
 
 		fetch('https://api.chucknorris.io/jokes/'+filter)
+		.then(res => res.ok ? res : Promise.reject(res))
 			.then(response => response.json())
+			.catch(reject => alert(`Ошибка, статус ${reject.status}`))
 			.then(json => {
 				let object = {};
 
@@ -103,11 +129,15 @@ window.addEventListener('DOMContentLoaded', () => {
 					object = Object.assign({}, json);
 				}
 
+				let t = Date.parse(new Date()) - Date.parse(object.updated_at);
+				t = (Math.floor((t/(1000*60*60))));
+
 				let card = document.createElement('div'),
 					like = document.createElement('img'),
 					cardFrame = document.createElement('div'),
 					cardId = document.createElement('div'),
 					cardIcon = document.createElement('img'),
+					cardIconLink = document.createElement('img'),
 					cardContent = document.createElement('div'),
 					cardCategory = document.createElement('div'),
 					link = document.createElement('a'),
@@ -125,6 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				cardCategory.classList = 'card__category';
 				cardDate.classList = 'card__date';
 				subcontent.classList = 'card__subcontent';
+				cardIconLink.classList = 'card__iconlink';
 
 				cardIcon.src = 'img/cardIcon.svg';
 				like.src = 'img/heartOff.svg';
@@ -133,12 +164,15 @@ window.addEventListener('DOMContentLoaded', () => {
 				cardIcon.alt = 'card-icon';
 				link.textContent = object.id;
 				link.href = object.url;
+				link.target = "_blank";
 				cardContent.textContent = object.value;
-				cardDate.textContent = object.updated_at;
+				cardDate.textContent = `Last update: ${t} hours ago`;
 				cardCategory.textContent = currentCategory;
+				cardIconLink.src = 'img/link.png';
+
 
 				card.append(like);
-				cardId.append(link);
+				cardId.append(link,cardIconLink);
 				subcontent.append(cardDate, cardCategory);
 				cardFrame.append(cardId, cardIcon, cardContent);
 				card.append(like,cardFrame, subcontent);
@@ -155,20 +189,20 @@ window.addEventListener('DOMContentLoaded', () => {
 			document.querySelector('.card__like').addEventListener('click', (button) => {
 				let likedCard = button.target.parentNode;
 
-				if (likedCard.childNodes[0].src == 'http://localhost:8081/macPawNew/img/heartOn.svg') {
+				if (button.target.classList.contains('liked')) {
 					let removeId = `selected ${likedCard.id}`;
-					console.log(removeId);
 
-					console.log(document.getElementById(`${removeId}`));
 					document.getElementById(`${removeId}`).remove();
 					likedCard.childNodes[0].src = 'img/heartOff.svg';
+					button.target.classList.remove('liked');
 				} else {
-
+					button.target.classList.add('liked');
 					let card = document.createElement('div'),
 						like = document.createElement('img'),
 						cardFrame = document.createElement('div'),
 						cardId = document.createElement('div'),
 						cardIcon = document.createElement('img'),
+						cardIconLink = document.createElement('img'),
 						cardContent = document.createElement('div'),
 						cardCategory = document.createElement('div'),
 						link = document.createElement('a'),
@@ -186,20 +220,23 @@ window.addEventListener('DOMContentLoaded', () => {
 						cardCategory.classList = 'selected__category';
 						cardDate.classList = 'selected__date';
 						subcontent.classList = 'selected__subcontent';
+						cardIconLink.classList = 'selected__iconlink';
 
 					like.src = 'img/heartOn.svg';
 					like.alt = 'like';
 					cardId.textContent = 'ID:';
 					cardIcon.src = 'img/cardIcon.svg';
+					cardIconLink.src = 'img/link.png';
 					cardIcon.alt = 'card-icon';
 					link.textContent = likedCard.childNodes[1].childNodes[0].childNodes[1].textContent;
 					link.href = likedCard.childNodes[1].childNodes[0].childNodes[1].href;
+					link.target = "_blank";
 					cardContent.textContent = likedCard.childNodes[1].childNodes[2].textContent;
 					cardDate.textContent = likedCard.childNodes[2].childNodes[0].textContent;
 					cardCategory.textContent = likedCard.childNodes[2].childNodes[1].textContent;
 
 					card.append(like);
-					cardId.append(link);
+					cardId.append(link, cardIconLink);
 					subcontent.append(cardDate, cardCategory);
 					cardFrame.append(cardId, cardIcon, cardContent);
 					card.append(like,cardFrame, subcontent);
@@ -215,7 +252,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	
 	function generateCategory() {
-		console.log(Object.keys(categories).length);
 		let count = categoryCount;
 		if ( categoryCount < Object.keys(categories).length) {
 		} else {
@@ -290,5 +326,4 @@ window.addEventListener('DOMContentLoaded', () => {
 	const selectClickedTag = (clickedTag) => {
 		clickedTag.classList.add('clicked');
 	};
-
 });

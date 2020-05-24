@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container-my">
+	<div class="overlay" onclick="off()"></div>
 	<div class="row">
 		<div class="col-md-12 col-lg-6 offset-lg-1">
 			<header class="header">
@@ -24,34 +25,34 @@
 				<h2 class="header__subheader">Favourite</h2>
 			</header>
 			<section class="search">
-					<h1 class="search__header">Hey!</h1>
-					<h2 class="search__subheader">Let’s try to find a joke for you:</h2>
-					<div class="modes">
-						<form action="#" class="modes__form">
-							<div class='modes__check'>
-								<label class="modes__name">Random
-									<input type="radio" name="category" value="random" checked>
-									<span class="modes__checkmark"></span>
-								</label>
-							</div>
-							<div class='modes__check'>
-								<label class="modes__name">From caterogies
-									<input type="radio" name="category" value="caterogies">
-									<span class="modes__checkmark"></span>
-								</label>
-							</div>
-							<ul class="modes__navigation">
-							</ul>
-							<div class='modes__check'>
-								<label class="modes__name">Search
-									<input type="radio" name="category" value="search">
-									<span class="modes__checkmark"></span>
-								</label>
-							</div>
-							<input type="text" class="modes__search" name="category" placeholder="Free text search...">
-							<button class="modes__get">Get a joke</button>
-						</form>
-					</div>
+				<h1 class="search__header">Hey!</h1>
+				<h2 class="search__subheader">Let’s try to find a joke for you:</h2>
+				<div class="modes">
+					<form action="#" class="modes__form">
+						<div class='modes__check'>
+							<label class="modes__name">Random
+								<input type="radio" name="category" value="random" checked>
+								<span class="modes__checkmark"></span>
+							</label>
+						</div>
+						<div class='modes__check'>
+							<label class="modes__name">From caterogies
+								<input type="radio" name="category" value="caterogies">
+								<span class="modes__checkmark"></span>
+							</label>
+						</div>
+						<ul class="modes__navigation">
+						</ul>
+						<div class='modes__check'>
+							<label class="modes__name">Search
+								<input type="radio" name="category" value="search">
+								<span class="modes__checkmark"></span>
+							</label>
+						</div>
+						<input type="text" class="modes__search" name="category" placeholder="Free text search...">
+						<button class="modes__get">Get a joke</button>
+					</form>
+				</div>
 			</section>
 		</div>
 		<div class="col-lg-4 offset-lg-1">
@@ -59,6 +60,7 @@
 				<h2 class="favourite__name">Favourite</h2>
 			</div>
 		</div>
+		
 	</div>
 </div>
 <script src="js/script.js"></script>

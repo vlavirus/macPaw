@@ -2,8 +2,22 @@
 	max-width: 1440px
 	position: relative
 	margin: 0 auto
+
+.overlay
+	position: fixed
+	display: none
+	width: 100%
+	height: 100%
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	background-color: rgba(0,0,0,0.5)
+	z-index: 2
+	cursor: pointer
 .header
 	margin-top: 40px
+	z-index: 4
 	&__name
 		display: inline-block
 		font-style: normal
@@ -28,7 +42,7 @@
 
 .modes
 	display: block
-	margin-top: 78px
+	margin-top: 43px
 	&__check
 		display: block
 		position: relative
@@ -156,7 +170,7 @@
 		line-height: 14px
 		cursor: pointer
 		padding: 20px
-		z-index: 2
+		z-index: 1
 	&__frame
 		display: block
 		position: relative
@@ -164,14 +178,20 @@
 		min-height: 40px
 		max-width: 623px
 	&__id
-		position: absolute
+		display: inline-block
+		position: relative
 		left: 60px
 		font-weight: 500
 		font-size: 10px
 		line-height: 14px
 		color: #8EA7FF
+		z-index: 1
 		a
 			color: #8EA7FF
+			text-decoration: underline
+	&__iconlink
+		position: relative
+		margin-left: 5px
 	&__icon
 		position: absolute
 		left: 10px
@@ -184,7 +204,6 @@
 		font-size: 18px
 		line-height: 26px
 		margin-left: 60px
-		padding-top: 10px
 	&__subcontent
 		display: flex
 		justify-content: space-between
@@ -213,6 +232,7 @@
 	background-color: #F8F8F8
 	height: 100%
 	padding: 40px 20px 0 20px
+	z-index: 3
 	&__name
 		font-style: normal
 		font-weight: 500
@@ -225,7 +245,7 @@
 	min-height: 180px
 	border-radius: 20px
 	border: 1px solid #F8F8F8
-	box-shadow: 0px 1px 8px 0px rgba(50, 50, 50, 0.3);
+	box-shadow: 0px 1px 8px 0px rgba(50, 50, 50, 0.3)
 	margin-top: 20px
 	&__like
 		position: absolute
@@ -236,6 +256,7 @@
 		font-size: 10px
 		line-height: 14px
 		padding: 20px
+		cursor: pointer
 	&__frame
 		display: block
 		position: relative
@@ -243,14 +264,20 @@
 		min-height: 40px
 		max-width: 390px
 	&__id
-		position: absolute
+		display: inline-block
+		position: relative
 		left: 60px
 		font-weight: 500
 		font-size: 10px
 		line-height: 14px
 		color: #8EA7FF
+		z-index: 2
 		a
 			color: #8EA7FF
+			text-decoration: underline
+	&__iconlink
+		position: relative
+		margin-left: 5px
 	&__icon
 		position: absolute
 		left: 10px
@@ -264,7 +291,7 @@
 		font-size: 14px
 		line-height: 22px
 		margin-left: 60px
-		padding-top: 10px
+		padding-top: 5px
 	&__subcontent
 		display: flex
 		flex-wrap: wrap
